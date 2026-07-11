@@ -176,7 +176,7 @@ class MainActivity : Activity() {
         pendingPermissionRequest = null
         webView.stopLoading()
         webView.webChromeClient = null
-        webView.webViewClient = null
+        webView.webViewClient = WebViewClient()
         webView.destroy()
         super.onDestroy()
     }
