@@ -15,6 +15,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.EditText
+import androidx.webkit.WebViewCompat
+import androidx.webkit.WebViewFeature
 
 class MainActivity : Activity() {
     private lateinit var webView: WebView
@@ -42,6 +44,7 @@ class MainActivity : Activity() {
             mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
             userAgentString = "$userAgentString CameraRequestMonitor/1.0"
         }
+        installDocumentStartMonitor()
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -106,6 +109,12 @@ class MainActivity : Activity() {
 
     private fun injectCameraMonitor() {
         webView.evaluateJavascript(cameraMonitorScript, null)
+    }
+
+    private fun installDocumentStartMonitor() {
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+            WebViewCompat.addDocumentStartJavaScript(webView, cameraMonitorScript, setOf("*"))
+        }
     }
 
     private fun handleWebPermissionRequest(request: PermissionRequest) {
