@@ -19,3 +19,7 @@ android {
         jvmToolchain(17)
     }
 }
+
+dependencies {
+    implementation("androidx.webkit:webkit:1.16.0")
+}
